@@ -6,7 +6,7 @@ Summary:        Web Browser for Linux
 Summary(ru):    Веб-браузер для Linux
 Name:           opera-stable
 Version:    26.0.1656.32
-Release:    1%{dist}
+Release:    2%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -18,6 +18,7 @@ Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_
 #Source3:    opera_crashreporter
 
 BuildRequires:  desktop-file-utils
+BuildRequires:  chrpath
 
 Provides:   libcrypto.so.1.0.0()(64bit)
 Provides:   libcrypto.so.1.0.0(OPENSSL_1.0.0)(64bit)
@@ -161,6 +162,9 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/*
 
 %changelog
+* Wed Dec 10 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.32-2
+- Add BR: chrpath
+
 * Wed Dec 03 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.32-1
 - Rename to opera-stable according to new channel
 - Update to 26.0.1656.32
