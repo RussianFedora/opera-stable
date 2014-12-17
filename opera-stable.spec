@@ -1,21 +1,17 @@
 %define debug_package %{nil}
-#%define libssl_ubuntu libssl1.0.0_1.0.1-4ubuntu5.20
 %define appname opera
 
 Summary:        Web Browser for Linux
 Summary(ru):    Веб-браузер для Linux
 Name:           opera-stable
-Version:    26.0.1656.32
-Release:    2%{dist}
+Version:    26.0.1656.60
+Release:    1%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
 License:    Proprietary
 URL:        http://www.opera.com/browser
 Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
-#Source1:    http://de.archive.ubuntu.com/ubuntu/pool/main/o/openssl/%{libssl_ubuntu}_amd64.deb
-#Source2:    opera_autoupdate
-#Source3:    opera_crashreporter
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  chrpath
@@ -53,11 +49,6 @@ mkdir -p %{buildroot}
 pushd %{buildroot}
     ar p %{SOURCE0} data.tar.xz | xz -d > %{name}-%{version}.x86_64.tar
     tar -xf %{name}-%{version}.x86_64.tar
-#    mkdir %{libssl_ubuntu}.x86_64
-#    pushd %{libssl_ubuntu}.x86_64
-#        ar p %{SOURCE1} data.tar.gz | gzip -d > %{libssl_ubuntu}.x86_64.tar
-#        tar -xf %{libssl_ubuntu}.x86_64.tar
-#    popd
 popd
 
 # Move /usr/lib/x86_64-linux-gnu/%{appname} to %{_libdir}/%{name}:
@@ -72,7 +63,6 @@ sed -e 's/Name=Opera/Name=Opera\ stable/g' -i %{buildroot}%{_datadir}/applicatio
 sed -e 's|Exec=%{appname}|Exec=%{name}|g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -e 's|Icon=%{appname}|Icon=%{name}|g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -e 's/TargetEnvironment=Unity/#TargetEnvironment=Unity/g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
-#sed -e 's/Exec=opera-developer\ %U/Exec=opera-developer\ --force-native-window-frame=false\ %U/g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # Rename icon files:
 mv %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{name}.png
@@ -88,25 +78,12 @@ desktop-file-install --vendor rfremix \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # Create necessary symbolic links
-## Install bundled dependencies on libs from Ubuntu 12.04:
 mkdir -p %{buildroot}%{_libdir}/%{name}/lib
 pushd %{buildroot}%{_libdir}/%{name}/lib
     ln -s ../../libudev.so.1 libudev.so.0
     ln -s %{_libdir}/libcrypto.so.10 libcrypto.so.1.0.0
     ln -s %{_libdir}/libssl.so.10 libssl.so.1.0.0
-#    mv %{buildroot}/%{libssl_ubuntu}.x86_64/lib/x86_64-linux-gnu/libcrypto.so.1.0.0 libcrypto.so.1.0.0
-#    mv %{buildroot}/%{libssl_ubuntu}.x86_64/lib/x86_64-linux-gnu/libssl.so.1.0.0 libssl.so.1.0.0
 popd
-
-## Add wrapper scripts for opera_autoupdate and opera_crashreporter binaries:
-#pushd %{buildroot}%{_libdir}/%{name}
-#    mv opera_autoupdate opera_autoupdate_orig
-#    mv opera_crashreporter opera_crashreporter_orig
-#    install -m 755 %{SOURCE2} opera_autoupdate
-#    install -m 755 %{SOURCE3} opera_crashreporter
-#    chmod +x opera_autoupdate
-#    chmod +x opera_crashreporter
-#popd
 
 # Fix symlink:
 pushd %{buildroot}%{_bindir}
@@ -124,7 +101,6 @@ chmod 4755 %{buildroot}%{_libdir}/%{name}/opera_sandbox
 # Remove unused directories and tarball:
 pushd %{buildroot}
     rm %{name}-%{version}.x86_64.tar
-#    rm -rf %{libssl_ubuntu}.x86_64
     rm -rf %{buildroot}%{_datadir}/lintian
     rm -rf %{buildroot}%{_datadir}/menu
 popd
@@ -162,6 +138,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/*
 
 %changelog
+* Wed Dec 17 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.60-1
+- Update to 26.0.1656.60
+- Clean up spec file
+
 * Wed Dec 10 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.32-2
 - Add BR: chrpath
 
