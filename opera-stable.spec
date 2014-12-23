@@ -5,7 +5,7 @@ Summary:        Web Browser for Linux
 Summary(ru):    Веб-браузер для Linux
 Name:           opera-stable
 Version:    26.0.1656.60
-Release:    1%{dist}
+Release:    2%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -14,7 +14,7 @@ URL:        http://www.opera.com/browser
 Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  chrpath
+# BuildRequires:  chrpath
 
 Provides:   libcrypto.so.1.0.0()(64bit)
 Provides:   libcrypto.so.1.0.0(OPENSSL_1.0.0)(64bit)
@@ -105,9 +105,9 @@ pushd %{buildroot}
     rm -rf %{buildroot}%{_datadir}/menu
 popd
 
-# Remove rpath
-find %{buildroot} -name "opera_autoupdate" -exec chrpath --delete {} \; 2>/dev/null
-find %{buildroot} -name "opera_crashreporter" -exec chrpath --delete {} \; 2>/dev/null
+## Remove rpath
+# find %{buildroot} -name "opera_autoupdate" -exec chrpath --delete {} \; 2>/dev/null
+# find %{buildroot} -name "opera_crashreporter" -exec chrpath --delete {} \; 2>/dev/null
 
 %post
 update-desktop-database &> /dev/null || :
@@ -138,6 +138,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/*
 
 %changelog
+* Tue Dec 23 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.60-2
+- Remove chrpath action:
+  http://ruario.ghost.io/2014/12/15/opera-packages-for-fedora-with-updates/#comment-1755224247
+
 * Wed Dec 17 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.60-1
 - Update to 26.0.1656.60
 - Clean up spec file
