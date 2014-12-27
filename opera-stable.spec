@@ -12,6 +12,7 @@ Group:      Applications/Internet
 License:    Proprietary
 URL:        http://www.opera.com/browser
 Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
+Source1:    %{name}.appdata.xml
 
 BuildRequires:  desktop-file-utils
 # BuildRequires:  chrpath
@@ -73,7 +74,7 @@ desktop-file-install --vendor rfremix \
   --dir %{buildroot}%{_datadir}/applications \
   --add-category Network \
   --add-category WebBrowser \
-  --add-category X-Fedora \
+# --add-category X-Fedora \
   --delete-original \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -109,6 +110,12 @@ popd
 # find %{buildroot} -name "opera_autoupdate" -exec chrpath --delete {} \; 2>/dev/null
 # find %{buildroot} -name "opera_crashreporter" -exec chrpath --delete {} \; 2>/dev/null
 
+# Install appstream data
+%if (0%{?fedora} >= 20) && (0%{?rhel} >= 8)
+    mkdir -p %{buildroot}%{_datadir}/appdata
+    install -pm 644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
+%endif
+
 %post
 update-desktop-database &> /dev/null || :
 touch --no-create /usr/share/icons/hicolor &>/dev/null || :
@@ -138,6 +145,10 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/*
 
 %changelog
+* Sat Dec 27 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.60-3
+- Add appdata.xml for Fedora >=20 and RHEL >=8
+- Remove category X-Fedora from *.desktop file
+
 * Tue Dec 23 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.60-2
 - Remove chrpath action:
   http://ruario.ghost.io/2014/12/15/opera-packages-for-fedora-with-updates/#comment-1755224247
