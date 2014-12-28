@@ -31,20 +31,6 @@
   </screenshots>
 
 ​  <url type="homepage">http://www.opera.com</url>
-​
-  <icon type="stock">opera-stable</icon>
-​  <icon type="cached">opera-stable.png</icon>
-  ​<icon type="local">/usr/share/icons/hicolor/128x128/apps/opera-stable.png</icon>
-  ​<icon type="remote">http://www-static.opera.com/static-heap/64/6401909cb31395e95e42e40e47a0cf3ab9a3985b/opera-browser.png</icon>
-
-​  <categories>
-​    <category>Network</category>
-​    <category>WebBrowser</category>
-​  </categories>
-  
 ​  <developer_name>OPERA SOFTWARE ASA</developer_name>
 
-  ​<architectures>
-​    <arch>x86_64</arch>
-​  </architectures>
 </component>
