@@ -1,11 +1,11 @@
 %define debug_package %{nil}
 %define appname opera
 
-Summary:        Web Browser for Linux
-Summary(ru):    Веб-браузер для Linux
+Summary:        Fast and secure web browser
+Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    26.0.1656.60
-Release:    4.1%{dist}
+Version:    27.0.1689.54
+Release:    1%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -20,8 +20,8 @@ BuildRequires:  libappstream-glib
 %endif
 # BuildRequires:  chrpath
 
-Provides:   libcrypto.so.1.0.0()(64bit)
-Provides:   libcrypto.so.1.0.0(OPENSSL_1.0.0)(64bit)
+# Provides:   libcrypto.so.1.0.0()(64bit)
+# Provides:   libcrypto.so.1.0.0(OPENSSL_1.0.0)(64bit)
 Provides:   libssl.so.1.0.0()(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)(64bit)
@@ -84,7 +84,7 @@ desktop-file-install --vendor rfremix \
 mkdir -p %{buildroot}%{_libdir}/%{name}/lib
 pushd %{buildroot}%{_libdir}/%{name}/lib
     ln -s ../../libudev.so.1 libudev.so.0
-    ln -s %{_libdir}/libcrypto.so.10 libcrypto.so.1.0.0
+#   ln -s %{_libdir}/libcrypto.so.10 libcrypto.so.1.0.0
     ln -s %{_libdir}/libssl.so.10 libssl.so.1.0.0
 popd
 
@@ -155,6 +155,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jan 27 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:27.0.1689.54-1
+- Update to 27.0.1689.54
+
 * Mon Dec 29 2014 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:26.0.1656.60-4.1
 - Remove <icon>, <categories> and <architectures> sections from *.appdata.xml
 
