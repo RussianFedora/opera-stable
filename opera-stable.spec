@@ -4,7 +4,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    27.0.1689.76
+Version:    28.0.1750.40
 Release:    1%{dist}
 Epoch:      5
 
@@ -25,7 +25,7 @@ BuildRequires:  libappstream-glib
 Provides:   libssl.so.1.0.0()(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)(64bit)
-Provides:   libudev.so.0()(64bit)
+# Provides:   libudev.so.0()(64bit)
 
 ExclusiveArch:    x86_64
 
@@ -83,7 +83,7 @@ desktop-file-install --vendor rfremix \
 # Create necessary symbolic links
 mkdir -p %{buildroot}%{_libdir}/%{name}/lib
 pushd %{buildroot}%{_libdir}/%{name}/lib
-    ln -s ../../libudev.so.1 libudev.so.0
+#   ln -s ../../libudev.so.1 libudev.so.0
 #   ln -s %{_libdir}/libcrypto.so.10 libcrypto.so.1.0.0
     ln -s %{_libdir}/libssl.so.10 libssl.so.1.0.0
 popd
@@ -155,6 +155,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Mar 10 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:28.0.1750.40-1
+- Update to 28.0.1750.40
+
 * Tue Feb 24 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:27.0.1689.76-1
 - Update to 27.0.1689.76
 
