@@ -4,7 +4,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    28.0.1750.51
+Version:    29.0.1795.47
 Release:    1%{dist}
 Epoch:      5
 
@@ -80,7 +80,7 @@ desktop-file-install --vendor rfremix \
   --delete-original \
   %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-# Create necessary symbolic links
+# Create necessary symbolic link
 mkdir -p %{buildroot}%{_libdir}/%{name}/lib
 pushd %{buildroot}%{_libdir}/%{name}/lib
 #   ln -s ../../libudev.so.1 libudev.so.0
@@ -155,6 +155,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Apr 29 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:29.0.1795.47-1
+- Update to 29.0.1795.47
+
 * Wed Apr 08 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:28.0.1750.51-1
 - Update to 28.0.1750.51
 
