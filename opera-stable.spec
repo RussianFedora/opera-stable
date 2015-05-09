@@ -5,7 +5,7 @@ Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
 Version:    29.0.1795.47
-Release:    1%{dist}
+Release:    2%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -155,6 +155,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat May 09 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:29.0.1795.47-2
+- Bump version for Fedora >= 22
+
 * Wed Apr 29 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:29.0.1795.47-1
 - Update to 29.0.1795.47
 
