@@ -1,23 +1,35 @@
+%global build_for_x86_64 1
+%global build_for_i386 0
 %define debug_package %{nil}
 %define appname opera
 
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    29.0.1795.60
-Release:    2%{dist}
+Version:    30.0.1835.52
+Release:    1%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
 License:    Proprietary
 URL:        http://www.opera.com/browser
+
+%if 0%{?build_for_x86_64}
 Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
-Source1:    rfremix-%{name}.appdata.xml
+%endif
+
+%if 0%{?build_for_i386}
+Source1:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.deb
+%endif
+
+Source2:    rfremix-%{name}.appdata.xml
 
 BuildRequires:  desktop-file-utils
+
 %if 0%{?fedora} >= 20
 BuildRequires:  libappstream-glib
 %endif
+
 # BuildRequires:  chrpath
 
 # Provides:   libcrypto.so.1.0.0()(64bit)
@@ -27,7 +39,17 @@ Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)(64bit)
 # Provides:   libudev.so.0()(64bit)
 
+%if 0%{?build_for_x86_64}
+%if !0%{?build_for_i386}
 ExclusiveArch:    x86_64
+%else
+ExclusiveArch:    x86_64 i686
+%endif
+%else
+%if 0%{?build_for_i386}
+ExclusiveArch:    i686
+%endif
+%endif
 
 %description
 Opera is a fast, secure and user-friendly web browser. It
@@ -51,14 +73,24 @@ mkdir -p %{buildroot}
 
 # Extract DEB packages:
 pushd %{buildroot}
-    ar p %{SOURCE0} data.tar.xz | xz -d > %{name}-%{version}.x86_64.tar
-    tar -xf %{name}-%{version}.x86_64.tar
+    %ifarch x86_64
+        ar p %{SOURCE0} data.tar.xz | xz -d > %{name}-%{version}.x86_64.tar
+        tar -xf %{name}-%{version}.x86_64.tar
+    %else
+        ar p %{SOURCE1} data.tar.xz | xz -d > %{name}-%{version}.i386.tar
+        tar -xf %{name}-%{version}.i386.tar
+    %endif
 popd
 
 # Move /usr/lib/x86_64-linux-gnu/%{appname} to %{_libdir}/%{name}:
-mv %{buildroot}/usr/lib/x86_64-linux-gnu/%{appname} %{buildroot}/usr/lib/%{name}
-rm -rf %{buildroot}/usr/lib/x86_64-linux-gnu
-mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
+%ifarch x86_64
+    mv %{buildroot}/usr/lib/x86_64-linux-gnu/%{appname} %{buildroot}/usr/lib/%{name}
+    rm -rf %{buildroot}/usr/lib/x86_64-linux-gnu
+    mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
+%else
+    mv %{buildroot}%{_libdir}/i386-linux-gnu/%{appname} %{buildroot}%{_libdir}/%{name}
+    rm -rf %{buildroot}%{_libdir}/i386-linux-gnu
+%endif
 
 # Modify DOC directory and *.desktop file:
 mv %{buildroot}%{_datadir}/doc/%{name} %{buildroot}%{_datadir}/doc/%{name}-%{version}
@@ -103,7 +135,11 @@ chmod 4755 %{buildroot}%{_libdir}/%{name}/opera_sandbox
 
 # Remove unused directories and tarball:
 pushd %{buildroot}
-    rm %{name}-%{version}.x86_64.tar
+    %ifarch x86_64
+        rm %{name}-%{version}.x86_64.tar
+    %else
+        rm %{name}-%{version}.i386.tar
+    %endif
     rm -rf %{buildroot}%{_datadir}/lintian
     rm -rf %{buildroot}%{_datadir}/menu
 popd
@@ -115,10 +151,8 @@ popd
 # Install appstream data
 %if 0%{?fedora} >= 20
     mkdir -p %{buildroot}%{_datadir}/appdata
-    install -pm 644 %{SOURCE1} %{buildroot}%{_datadir}/appdata/rfremix-%{name}.appdata.xml
-%endif
+    install -pm 644 %{SOURCE2} %{buildroot}%{_datadir}/appdata/rfremix-%{name}.appdata.xml
 
-%if 0%{?fedora} >= 20
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/rfremix-%{name}.appdata.xml
 %endif
@@ -155,6 +189,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jun 10 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:30.0.1835.52-1
+- Update to 30.0.1835.52
+
 * Wed May 20 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:29.0.1795.60-1
 - Update to 29.0.1795.60
 
