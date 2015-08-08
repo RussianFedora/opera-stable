@@ -2,12 +2,13 @@
 %global build_for_i386 0
 %define debug_package %{nil}
 %define appname opera
+%define major_ver 31
 
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    31.0.1889.99
-Release:    1%{dist}
+Version:    %{major_ver}.0.1889.99
+Release:    2%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -34,10 +35,18 @@ BuildRequires:  libappstream-glib
 
 # Provides:   libcrypto.so.1.0.0()(64bit)
 # Provides:   libcrypto.so.1.0.0(OPENSSL_1.0.0)(64bit)
+# Provides:   libudev.so.0()(64bit)
+%ifarch x86_64
 Provides:   libssl.so.1.0.0()(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)(64bit)
-# Provides:   libudev.so.0()(64bit)
+Provides:   libffmpeg.so.%{major_ver}()(64bit)
+%else
+Provides:   libssl.so.1.0.0
+Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)
+Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)
+Provides:   libffmpeg.so.%{major_ver}
+%endif
 
 %if 0%{?build_for_x86_64}
 %if !0%{?build_for_i386}
@@ -189,6 +198,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Aug 04 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:31.0.1889.99-2
+- Add Provides: libssl.so.1.0.0
+- Fix <provides> section for 32 bit builds
+
 * Tue Aug 04 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:31.0.1889.99-1
 - Update to 31.0.1889.99
 
