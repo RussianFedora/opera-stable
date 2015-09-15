@@ -2,12 +2,12 @@
 %global build_for_i386 0
 %define debug_package %{nil}
 %define appname opera
-%define major_ver 31
+%define major_ver 32
 
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    %{major_ver}.0.1889.174
+Version:    %{major_ver}.0.1948.25
 Release:    1%{dist}
 Epoch:      5
 
@@ -198,6 +198,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep 15 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:32.0.1948.25-1
+- Update to 32.0.1948.25
+
 * Tue Aug 18 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:31.0.1889.174-1
 - Update to 31.0.1889.174
 
