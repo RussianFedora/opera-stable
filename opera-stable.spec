@@ -7,7 +7,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    %{major_ver}.0.1948.25
+Version:    %{major_ver}.0.1948.69
 Release:    1%{dist}
 Epoch:      5
 
@@ -198,6 +198,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Sep 28 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:32.0.1948.69-1
+- Update to 32.0.1948.69
+
 * Tue Sep 15 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:32.0.1948.25-1
 - Update to 32.0.1948.25
 
