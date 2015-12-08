@@ -1,13 +1,14 @@
 %global build_for_x86_64 1
 %global build_for_i386 0
+%global build_from_rpm 0
 %define debug_package %{nil}
 %define appname opera
-%define major_ver 33
+%define major_ver 34
 
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    %{major_ver}.0.1990.137
+Version:    %{major_ver}.0.2036.25
 Release:    1%{dist}
 Epoch:      5
 
@@ -16,11 +17,19 @@ License:    Proprietary
 URL:        http://www.opera.com/browser
 
 %if 0%{?build_for_x86_64}
+%if 0%{?build_from_rpm}
+Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.rpm
+%else
 Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
+%endif
 %endif
 
 %if 0%{?build_for_i386}
+%if 0%{?build_from_rpm}
+Source1:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.rpm
+%else
 Source1:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.deb
+%endif
 %endif
 
 Source2:    rfremix-%{name}.appdata.xml
@@ -80,29 +89,45 @@ Opera — это быстрый, безопасный и дружественн�
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 
-# Extract DEB packages:
+# Extract DEB/RPM packages:
 pushd %{buildroot}
     %ifarch x86_64
-        ar p %{SOURCE0} data.tar.xz | xz -d > %{name}-%{version}.x86_64.tar
-        tar -xf %{name}-%{version}.x86_64.tar
+        %if 0%{?build_from_rpm}
+            rpm2cpio %{SOURCE0} | cpio -idV --quiet
+        %else
+            ar p %{SOURCE0} data.tar.xz | xz -d > %{name}-%{version}.x86_64.tar
+            tar -xf %{name}-%{version}.x86_64.tar
+        %endif
     %else
-        ar p %{SOURCE1} data.tar.xz | xz -d > %{name}-%{version}.i386.tar
-        tar -xf %{name}-%{version}.i386.tar
+        %if 0%{?build_from_rpm}
+            rpm2cpio %{SOURCE1} | cpio -idV --quiet
+        %else
+            ar p %{SOURCE1} data.tar.xz | xz -d > %{name}-%{version}.i386.tar
+            tar -xf %{name}-%{version}.i386.tar
+        %endif
     %endif
 popd
 
-# Move /usr/lib/x86_64-linux-gnu/%{appname} to %{_libdir}/%{name}:
-%ifarch x86_64
-    mv %{buildroot}/usr/lib/x86_64-linux-gnu/%{appname} %{buildroot}/usr/lib/%{name}
-    rm -rf %{buildroot}/usr/lib/x86_64-linux-gnu
-    mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
+# Move /usr/lib/%{arch}-linux-gnu/%{appname} to %{_libdir}/%{name} (for DEB source):
+%if !0%{?build_from_rpm}
+    %ifarch x86_64
+        mv %{buildroot}/usr/lib/x86_64-linux-gnu/%{appname} %{buildroot}/usr/lib/%{name}
+        rm -rf %{buildroot}/usr/lib/x86_64-linux-gnu
+        mv %{buildroot}/usr/lib %{buildroot}%{_libdir}
+    %else
+        mv %{buildroot}%{_libdir}/i386-linux-gnu/%{appname} %{buildroot}%{_libdir}/%{name}
+        rm -rf %{buildroot}%{_libdir}/i386-linux-gnu
+    %endif
 %else
-    mv %{buildroot}%{_libdir}/i386-linux-gnu/%{appname} %{buildroot}%{_libdir}/%{name}
-    rm -rf %{buildroot}%{_libdir}/i386-linux-gnu
+    mv %{buildroot}%{_libdir}/%{appname} %{buildroot}%{_libdir}/%{name}
 %endif
 
 # Modify DOC directory and *.desktop file:
-mv %{buildroot}%{_datadir}/doc/%{name} %{buildroot}%{_datadir}/doc/%{name}-%{version}
+if [ -d %{buildroot}%{_datadir}/doc/%{name}/ ]; then
+    mv %{buildroot}%{_datadir}/doc/%{name} %{buildroot}%{_datadir}/doc/%{name}-%{version}
+else
+    mkdir -p %{buildroot}%{_datadir}/doc/%{name}-%{version}
+fi
 mv %{buildroot}%{_datadir}/applications/%{appname}.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -e 's/Name=Opera/Name=Opera\ stable/g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -e 's|Exec=%{appname}|Exec=%{name}|g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -110,7 +135,11 @@ sed -e 's|Icon=%{appname}|Icon=%{name}|g' -i %{buildroot}%{_datadir}/application
 sed -e 's/TargetEnvironment=Unity/#TargetEnvironment=Unity/g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # Rename icon files:
+mv %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
 mv %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{name}.png
+mv %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+mv %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
+mv %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{name}.png
 mv %{buildroot}%{_datadir}/pixmaps/%{appname}.xpm %{buildroot}%{_datadir}/pixmaps/%{name}.xpm
 
 # Install *.desktop file:
@@ -129,29 +158,35 @@ pushd %{buildroot}%{_libdir}/%{name}/lib
     ln -s %{_libdir}/libssl.so.10 libssl.so.1.0.0
 popd
 
-# Fix symlink:
-pushd %{buildroot}%{_bindir}
-    rm %{appname}
-    %ifarch x86_64
-        ln -s ../lib64/%{name}/%{appname} %{name}
-    %else
-        ln -s ../lib/%{name}/%{appname} %{name}
-    %endif
-popd
+# Fix symlink (for DEB source):
+%if !0%{?build_from_rpm}
+    pushd %{buildroot}%{_bindir}
+        rm %{appname}
+        %ifarch x86_64
+            ln -s ../lib64/%{name}/%{appname} %{name}
+        %else
+            ln -s ../lib/%{name}/%{appname} %{name}
+        %endif
+    popd
+%else
+    mv %{appname} %{name}
+%endif
 
 # Fix <opera_sandbox> attributes:
 chmod 4755 %{buildroot}%{_libdir}/%{name}/opera_sandbox
 
 # Remove unused directories and tarball:
-pushd %{buildroot}
-    %ifarch x86_64
-        rm %{name}-%{version}.x86_64.tar
-    %else
-        rm %{name}-%{version}.i386.tar
-    %endif
-    rm -rf %{buildroot}%{_datadir}/lintian
-    rm -rf %{buildroot}%{_datadir}/menu
-popd
+%if !0%{?build_from_rpm}
+    pushd %{buildroot}
+        %ifarch x86_64
+            rm %{name}-%{version}.x86_64.tar
+        %else
+            rm %{name}-%{version}.i386.tar
+        %endif
+        rm -rf %{buildroot}%{_datadir}/lintian
+        rm -rf %{buildroot}%{_datadir}/menu
+    popd
+%endif
 
 ## Remove rpath
 # find %{buildroot} -name "opera_autoupdate" -exec chrpath --delete {} \; 2>/dev/null
@@ -192,12 +227,17 @@ rm -rf %{buildroot}
 %{_libdir}/%{name}/*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/*
+%{_datadir}/mime/packages/*
 %{_datadir}/pixmaps/*
 %if 0%{?fedora} >= 20
-    %{_datadir}/appdata/rfremix-%{name}.appdata.xml
+%{_datadir}/appdata/rfremix-%{name}.appdata.xml
 %endif
 
 %changelog
+* Tue Dec 08 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:34.0.2036.25-1
+- Update to 34.0.2036.25
+- Add switchers for RPM / DEB source packages
+
 * Mon Nov 30 2015 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:33.0.1990.137-1
 - Update to 33.0.1990.137
 
