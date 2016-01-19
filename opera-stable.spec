@@ -233,6 +233,7 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/rfremix-%{name}.appdata.xml
 %endif
 
+
 %changelog
 * Tue Jan 19 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:34.0.2036.50-1
 - Update to 34.0.2036.50
