@@ -1,14 +1,13 @@
 %global build_for_x86_64 1
-%global build_for_i386 0
-%global build_from_rpm 0
+%global build_for_i386 1
+%global build_from_rpm 1
 %define debug_package %{nil}
 %define appname opera
-%define major_ver 34
 
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    %{major_ver}.0.2036.50
+Version:    35.0.2066.37
 Release:    1%{dist}
 Epoch:      5
 
@@ -49,12 +48,12 @@ BuildRequires:  libappstream-glib
 Provides:   libssl.so.1.0.0()(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)(64bit)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)(64bit)
-Provides:   libffmpeg.so.%{major_ver}()(64bit)
+Provides:   libffmpeg.so()(64bit)
 %else
 Provides:   libssl.so.1.0.0
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.0)
 Provides:   libssl.so.1.0.0(OPENSSL_1.0.1)
-Provides:   libffmpeg.so.%{major_ver}
+Provides:   libffmpeg.so
 %endif
 
 %if 0%{?build_for_x86_64}
@@ -175,7 +174,7 @@ popd
 # Fix <opera_sandbox> attributes:
 chmod 4755 %{buildroot}%{_libdir}/%{name}/opera_sandbox
 
-# Remove unused directories and tarball:
+# Remove unused directories and tarball  (for DEB source):
 %if !0%{?build_from_rpm}
     pushd %{buildroot}
         %ifarch x86_64
@@ -233,8 +232,10 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/rfremix-%{name}.appdata.xml
 %endif
 
-
 %changelog
+* Mon Feb 01 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.37-1
+- Update to 35.0.2066.37
+
 * Tue Jan 19 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:34.0.2036.50-1
 - Update to 34.0.2036.50
 
