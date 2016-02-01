@@ -8,7 +8,7 @@ Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
 Version:    35.0.2066.37
-Release:    1%{dist}
+Release:    2%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -168,7 +168,7 @@ popd
         %endif
     popd
 %else
-    mv %{appname} %{name}
+    mv %{buildroot}%{_bindir}/%{appname} %{buildroot}%{_bindir}/%{name}
 %endif
 
 # Fix <opera_sandbox> attributes:
@@ -233,6 +233,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Feb 01 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.37-2
+- Fix executable symlink creation
+
 * Mon Feb 01 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.37-1
 - Update to 35.0.2066.37
 
