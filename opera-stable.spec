@@ -8,7 +8,7 @@ Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
 Version:    35.0.2066.37
-Release:    2%{dist}
+Release:    3%{dist}
 Epoch:      5
 
 Group:      Applications/Internet
@@ -157,19 +157,15 @@ pushd %{buildroot}%{_libdir}/%{name}/lib
     ln -s %{_libdir}/libssl.so.10 libssl.so.1.0.0
 popd
 
-# Fix symlink (for DEB source):
-%if !0%{?build_from_rpm}
-    pushd %{buildroot}%{_bindir}
-        rm %{appname}
-        %ifarch x86_64
-            ln -s ../lib64/%{name}/%{appname} %{name}
-        %else
-            ln -s ../lib/%{name}/%{appname} %{name}
-        %endif
-    popd
-%else
-    mv %{buildroot}%{_bindir}/%{appname} %{buildroot}%{_bindir}/%{name}
-%endif
+# Fix symlink:
+pushd %{buildroot}%{_bindir}
+    rm %{appname}
+    %ifarch x86_64
+        ln -s ../lib64/%{name}/%{appname} %{name}
+    %else
+        ln -s ../lib/%{name}/%{appname} %{name}
+    %endif
+popd
 
 # Fix <opera_sandbox> attributes:
 chmod 4755 %{buildroot}%{_libdir}/%{name}/opera_sandbox
@@ -233,6 +229,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 03 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.37-3
+- Fix executable symlink path
+
 * Mon Feb 01 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.37-2
 - Fix executable symlink creation
 
