@@ -229,7 +229,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Wed Feb 03 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.68-1
+* Tue Feb 16 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.68-1
 - Update to 35.0.2066.68
 
 * Wed Feb 03 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.37-3
