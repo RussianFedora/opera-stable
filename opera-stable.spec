@@ -7,7 +7,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    35.0.2066.92
+Version:    36.0.2130.32
 Release:    1%{dist}
 Epoch:      5
 
@@ -121,7 +121,7 @@ popd
     mv %{buildroot}%{_libdir}/%{appname} %{buildroot}%{_libdir}/%{name}
 %endif
 
-# Modify DOC directory and *.desktop file:
+# Modify DOC directory, *.desktop file and ffmpeg_preload_config.json:
 if [ -d %{buildroot}%{_datadir}/doc/%{name}/ ]; then
     mv %{buildroot}%{_datadir}/doc/%{name} %{buildroot}%{_datadir}/doc/%{name}-%{version}
 else
@@ -132,6 +132,7 @@ sed -e 's/Name=Opera/Name=Opera\ stable/g' -i %{buildroot}%{_datadir}/applicatio
 sed -e 's|Exec=%{appname}|Exec=%{name}|g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -e 's|Icon=%{appname}|Icon=%{name}|g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
 sed -e 's/TargetEnvironment=Unity/#TargetEnvironment=Unity/g' -i %{buildroot}%{_datadir}/applications/%{name}.desktop
+sed -e 's|/usr/lib/chromium-browser/libs|%{_libdir}/%{name}/lib_extra|g' -i %{buildroot}%{_libdir}/%{name}/resources/ffmpeg_preload_config.json
 
 # Rename icon files:
 mv %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{appname}.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
@@ -170,7 +171,7 @@ popd
 # Fix <opera_sandbox> attributes:
 chmod 4755 %{buildroot}%{_libdir}/%{name}/opera_sandbox
 
-# Remove unused directories and tarball  (for DEB source):
+# Remove unused directories and tarball (for DEB source):
 %if !0%{?build_from_rpm}
     pushd %{buildroot}
         %ifarch x86_64
@@ -229,6 +230,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Mar 14 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:36.0.2130.32-1
+- Update to 36.0.2130.32
+- Fix ffmpeg_preload_config.json
+
 * Tue Mar 01 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:35.0.2066.92-1
 - Update to 35.0.2066.92
 
