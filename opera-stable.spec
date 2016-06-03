@@ -1,4 +1,4 @@
-%global build_for_x86_64 0
+%global build_for_x86_64 1
 %global build_for_i386 1
 %global build_from_rpm 1
 %define debug_package %{nil}
@@ -7,7 +7,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    37.0.2178.43
+Version:    37.0.2178.54
 Release:    1%{dist}
 Epoch:      5
 
@@ -230,6 +230,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jun 03 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:37.0.2178.54-1
+- Update to 37.0.2178.54
+
 * Mon May 09 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:37.0.2178.43-1
 - Update to 37.0.2178.43
 
