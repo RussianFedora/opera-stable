@@ -7,7 +7,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    41.0.2353.56
+Version:    41.0.2353.69
 Release:    1%{dist}
 Epoch:      5
 
@@ -17,17 +17,17 @@ URL:        http://www.opera.com/browser
 
 %if 0%{?build_for_x86_64}
 %if 0%{?build_from_rpm}
-Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.rpm
+Source0:    http://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.rpm
 %else
-Source0:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
+Source0:    http://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_amd64.deb
 %endif
 %endif
 
 %if 0%{?build_for_i386}
 %if 0%{?build_from_rpm}
-Source1:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.rpm
+Source1:    http://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.rpm
 %else
-Source1:    ftp://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.deb
+Source1:    http://ftp.opera.com/pub/%{appname}/desktop/%{version}/linux/%{name}_%{version}_i386.deb
 %endif
 %endif
 
@@ -230,6 +230,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 22 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:41.0.2353.69-1
+- Update to 41.0.2353.69
+
 * Tue Nov 08 2016 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:41.0.2353.56-1
 - Update to 41.0.2353.56
 
