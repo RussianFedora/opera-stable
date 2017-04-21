@@ -9,9 +9,9 @@ Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
 Version:    44.0.2510.1218
 %if 0%{?fedora} >= 25
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %else
-Release:	1%{?dist}
+Release:	2%{?dist}
 %endif
 Epoch:      5
 
@@ -228,14 +228,17 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 %{_libdir}/%{name}/*
 %{_datadir}/applications/*.desktop
-%{_datadir}/icons/*
+%{_datadir}/icons/hicolor/*/apps/*.png
 %{_datadir}/mime/packages/*
-%{_datadir}/pixmaps/*
+%{_datadir}/pixmaps/*.xpm
 %if 0%{?fedora} >= 20
 %{_datadir}/appdata/rfremix-%{name}.appdata.xml
 %endif
 
 %changelog
+* Fri Apr 21 2017 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:44.0.2510.1218-2
+- Fixed <files> section
+
 * Wed Apr 12 2017 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:44.0.2510.1218-1
 - Update to 44.0.2510.1218
 
