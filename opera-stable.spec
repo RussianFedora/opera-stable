@@ -7,7 +7,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    45.0.2552.888
+Version:    45.0.2552.898
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -236,6 +236,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jun 13 2017 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:45.0.2552.898-1
+- Update to 45.0.2552.898
+
 * Thu Jun 01 2017 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:45.0.2552.888-1
 - Update to 45.0.2552.888
 
