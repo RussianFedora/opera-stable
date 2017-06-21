@@ -1,5 +1,5 @@
 %global build_for_x86_64 1
-%global build_for_i386 1
+%global build_for_i386 0
 %global build_from_rpm 1
 %define debug_package %{nil}
 %define appname opera
@@ -7,7 +7,7 @@
 Summary:        Fast and secure web browser
 Summary(ru):    Быстрый и безопасный Веб-браузер
 Name:           opera-stable
-Version:    45.0.2552.898
+Version:    46.0.2597.26
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -236,6 +236,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jun 21 2017 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:46.0.2597.26-1
+- Update to 46.0.2597.26
+
 * Tue Jun 13 2017 carasin berlogue <carasin DOT berlogue AT mail DOT ru> - 5:45.0.2552.898-1
 - Update to 45.0.2552.898
 
